@@ -1,0 +1,271 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTT</title>
+
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        .game-header {
+            background-color: white;
+            height: 150px;
+            width: 500px;
+            position: absolute;
+            left: calc(50% - 250px);
+            top: calc(50% - 400px);
+            font-family: "Lucida Console", "Courier New", monospace;
+            font-size: 50px;
+            text-align: center;
+            box-sizing: border-box;
+            padding: 50px 0px 50px 0px;
+        }
+
+        .game-board {
+            width: 500px;
+            height: 500px;
+            position: absolute;
+            top: calc(50% - 250px);
+            left: calc(50% - 250px);
+
+        }
+        .game-slot {
+            width: 33.333%;
+            height: 33.333%;
+            border: 5px solid black;
+            float: left;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+        .game-slot:nth-child(1) {
+            border-left-width: 0px;
+            border-top-width: 0px;
+        }
+        .game-slot:nth-child(2) {
+            border-top-width: 0px;
+        }
+        .game-slot:nth-child(3) {
+            border-right-width: 0px;
+            border-top-width: 0px;
+        }
+        .game-slot:nth-child(4) {
+            border-left-width: 0px;
+        }
+        .game-slot:nth-child(6) {
+            border-right-width: 0px;
+        }
+        .game-slot:nth-child(7) {
+            border-bottom-width: 0px;
+            border-left-width: 0px;
+        }
+        .game-slot:nth-child(8) {
+            border-bottom-width: 0px;
+        }
+        .game-slot:nth-child(9) {
+            border-right-width: 0px;
+            border-bottom-width: 0px;
+        }
+        .game-slot:hover {
+            background-color: rgba(0, 0, 0, .2);
+            cursor:pointer;
+        }
+
+        .new-game-btn {
+            width: 250px;
+            height: 50px;
+            position: absolute;
+            left: calc(50% - 125px);
+            top: calc(50% + 275px);
+        }
+
+
+
+        .token-o {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: black;
+            position: relative;
+        }
+        .token-o::after {
+            display: block;
+            width: 80%;
+            height: 80%;
+            background-color: white;
+            content: "";
+            position: absolute;
+            top: 10%;
+            left: 10%; 
+            border-radius: 50%;
+
+        }
+        .token-x {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .token-x::before, .token-x::after {
+            display: block;
+            content: "";
+            background-color: black;
+            width: 100%;
+            height: 15px;  
+            position: absolute;
+            top: calc(50% - 7.5px);
+        }
+        .token-x::before {
+            transform: rotate(45deg);
+        }
+        .token-x::after {
+            transform: rotate(-45deg);
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="game-header"></div>
+    <div class="game-board">
+        <div class="game-slot"></div>
+        <div class="game-slot"></div>
+        <div class="game-slot"></div>
+        <div class="game-slot"></div>
+        <div class="game-slot"></div>
+        <div class="game-slot"></div>
+        <div class="game-slot"></div>
+        <div class="game-slot"></div>
+        <div class="game-slot"></div>
+    </div> 
+    <button class="new-game-btn">New Game</button>
+    <script>
+        let phase = 'PlayerInput';
+        let tokenTurn = 'o';
+        let board = [
+            ['', '', ''],
+            ['', '', ''],
+            ['', '', ''],
+        ]
+        let tilesfilled = 0;
+        let winner = '';
+
+        // Click functionality
+        function placeToken(tokenType, row, column, tileElement) {
+            // console.log(tokenType, row, column)
+            if (phase != 'PlayerInput' || board[row][column] != '') {
+                return false;
+            }
+            board[row][column] = tokenType;
+            tileElement.innerHTML = `<div class="token-${tokenType}"></div>`;
+            tilesfilled++;
+            transitionState();
+            return true; 
+        }
+
+        // Analyze
+        function analyzeGameState() {
+            if (phase != 'Analysis') return; 
+            let tokens = ['o', 'x'];
+            for (let r = 0; r < 3; r++) {
+                tokens.forEach(tType => {
+                    if (board[r][0] == tType && board[r][1] == tType && board[r][2] == tType) {
+                        winner = tType;
+                    }
+                })
+            }
+            for (let c = 0; c < 3; c++) {
+                tokens.forEach(tType => {
+                    if (board[0][c] == tType && board[1][c] == tType && board[2][c] == tType) {
+                        winner = tType;
+                    }
+                })
+            }
+            tokens.forEach(tType => {
+                if (board[0][0] == tType && board[1][1] == tType && board[2][2] == tType) {
+                    winner = tType;
+                }
+            })
+            tokens.forEach(tType => {
+                if (board[0][2] == tType && board[1][1] == tType && board[2][0] == tType) {
+                    winner = tType;
+                }
+            })
+            if (tokenTurn == 'o') {
+                tokenTurn = 'x';
+            }
+            else {
+                tokenTurn = 'o';
+            }
+            transitionState();
+        }
+            
+        // Next state
+        function transitionState() {
+            if (phase == 'PlayerInput') {
+                phase = 'Analysis';
+            }
+            else if (phase == 'Analysis') {
+                if (winner == '' && tilesfilled < 9) {
+                    phase = 'PlayerInput'; 
+                }
+                else if (winner != '') {
+                    phase = 'Victory';
+                }
+                else {
+                    phase = 'Draw';
+                }
+            }
+            else phase = 'PlayerInput';
+            showGameState();
+        }
+
+
+        // New game
+        function newGame() {
+            phase = 'PlayerInput';
+            tokenTurn = 'o';
+            board = [
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', ''],
+            ]
+            tilesfilled = 0;
+            winner = '';
+            document.body.querySelectorAll('.game-slot').forEach((slot) => {
+                slot.innerHTML = ''
+            })
+            
+        }
+
+        // Show game state
+        function showGameState() {
+            if (phase == 'PlayerInput') {
+                document.body.querySelector('.game-header').innerHTML = `${tokenTurn}'s turn`;
+            }
+            else if (phase == 'Victory') {
+                document.body.querySelector('.game-header').innerHTML = `Winner: ${winner}`;
+            }
+            else if (phase == 'Draw') {
+                document.body.querySelector('.game-header').innerHTML = `Draw`;    
+            }
+
+        }
+
+        document.body.querySelectorAll('.game-slot').forEach((element, index) => {
+            element.addEventListener('click', () => {
+                // element.innerHTML = '<div class="token-x"></div>'
+                let result = placeToken(tokenTurn, Math.floor(index/3), index%3, element);
+                if (result == true) {
+                    analyzeGameState();
+                } 
+            })
+        })
+
+        document.body.querySelector('.new-game-btn').addEventListener('click', () => {
+            newGame();
+        })
+    </script>
+</body>
+</html>

@@ -2,7 +2,19 @@ body {
     margin: 0px;
 }
 
-
+.game-header {
+    background-color: white;
+    height: 150px;
+    width: 500px;
+    position: absolute;
+    left: calc(50% - 250px);
+    top: calc(50% - 400px);
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 50px;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 50px 0px 50px 0px;
+}
 
 .game-board {
     width: 500px;
@@ -53,6 +65,13 @@ body {
     cursor:pointer;
 }
 
+.new-game-btn {
+    width: 250px;
+    height: 50px;
+    position: absolute;
+    left: calc(50% - 125px);
+    top: calc(50% + 275px);
+}
 
 
 
