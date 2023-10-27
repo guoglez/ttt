@@ -93,7 +93,8 @@ function newGame() {
     document.body.querySelectorAll('.game-slot').forEach((slot) => {
         slot.innerHTML = ''
     })
-    
+
+    document.body.querySelector('.game-header').innerHTML = ``;
 }
 
 // Show game state
@@ -123,5 +124,3 @@ document.body.querySelectorAll('.game-slot').forEach((element, index) => {
 document.body.querySelector('.new-game-btn').addEventListener('click', () => {
     newGame();
 })
-
-showGameState();
