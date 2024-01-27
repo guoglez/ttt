@@ -17,7 +17,22 @@ function placeToken(tokenType, row, column, tileElement) {
     board[row][column] = tokenType;
     tileElement.innerHTML = `<div class="token-${tokenType}"></div>`;
     tilesfilled++;
-    transitionState();
+    transitionState(); 
+
+    fetch("/place-token", {
+        method: "POST",
+        body: JSON.stringify({
+            tokenType: tokenType,
+            tokenLocation: {
+                row: row, 
+                column: column,
+            },    
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+
     return true; 
 }
 
@@ -124,3 +139,38 @@ document.body.querySelectorAll('.game-slot').forEach((element, index) => {
 document.body.querySelector('.new-game-btn').addEventListener('click', () => {
     newGame();
 })
+
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
+setInterval(()=>{
+    let board = JSON.parse(httpGet("/game-state"));
+    let s = "";
+    for(let i = 0; i < board.length; i++) {
+        for(let k = 0; k < board[i].length; k++) {
+            if(board[i][k] == '') {
+                s += '_';
+            }
+            else {
+                s += board[i][k];
+            } 
+        }
+        s += "\n"
+    }
+    console.log(s);
+    // let tileElements = document.body.querySelectorAll('.game-slot');
+    // for(r = 0; r < board.length; r++) {
+    //     for(c = 0; c < board[r].length; c++) {
+    //         i = r*3 + c;
+    //         let tokenType = board[r][c];
+    //         if(tokenType != "") {
+    //             tileElements[i].innerHTML = `<div class="token-${tokenType}"></div>`;
+    //         }
+    //     }
+    // }
+}, 500)
