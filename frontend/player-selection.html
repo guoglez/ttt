@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTT</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body class="player-selection">
+    <a href="index.html">
+        <button class="home-btn">🏚️</button>
+    </a>
+    <button class="selection-btn player-o-btn">
+        <div class="token-o"></div>
+    </button>
+    <button class="selection-btn player-x-btn">
+        <div class="token-x"></div>
+    </button>
+    <button class="selection-btn player-s-btn">👁️</button>
+    <div class="player-name player-o-name">nameo</div>
+    <div class="player-name player-x-name">namex</div>
+    <script>
+        document.body.querySelector('.player-o-btn').addEventListener('click', () => {
+            playGame('o');
+            playerValidation("o")
+        });
+
+        document.body.querySelector('.player-x-btn').addEventListener('click', () => {
+            playGame('x');
+            playerValidation("x")
+        });
+
+        document.body.querySelector('.player-s-btn').addEventListener('click', () => {
+            playGame('s');
+        });
+        
+        function bags() {
+
+        }
+
+        function playGame(usertype) {
+            
+            fetch('/play-game', {
+                method: "POST",
+                body: JSON.stringify ({
+                    usertype: usertype
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            window.location.href = "multiplayer-game.html";
+        }
+        
+        function playerValidation(validatetype) {
+            
+            fetch('/validate-player', {
+                
+            });
+        }
+    </script>
+</body>
+</html>

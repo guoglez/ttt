@@ -2,6 +2,154 @@ body {
     margin: 0px;
 }
 
+.title {
+    background-color: white;
+    font-size: 200px;
+    position: absolute;
+    width: 200px;
+    top: 25%;
+    left: calc(50% - 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.username-input {
+    background-color: white;
+    width: 350px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: calc(50% - 175px);
+    position: absolute;
+    font-size: 20px;
+}
+
+.enter-button {
+    background-color: white;
+    width: 200px;
+    font-size: 25px;
+    position: absolute;
+    top: 60%;
+    left: calc(50% - 100px);
+}
+
+.home-btn {
+    margin: 5px;
+    background-color: white;
+    font-size: 25px;
+    position: absolute;
+    left: calc(100% - 57px);
+    cursor: pointer;
+}
+
+.selection-btn {
+    margin: 25px;
+    background-color: white;
+    position: absolute;
+    font-size: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+}
+
+.multiplayer-game .player-o-btn {
+    top: calc(50% - 100px);
+    left: 12%;
+}
+
+.player-selection .player-o-btn {
+    top: calc(50% - 100px);
+    left: calc(25% - 150px);
+}
+
+.player-o-btn>.token-o {
+    width: 75%;
+    height: 75%;
+}
+
+.multiplayer-game .player-x-btn {
+    top: calc(50% - 100px);
+    left: 75%;
+}
+
+.player-selection .player-x-btn {
+    top: calc(50% - 100px);
+    left: calc(50% - 150px);
+}
+
+.player-x-btn>.token-x {
+    width: 75%;
+    height: 75%;
+}
+
+.multiplayer-game .player-s-btn {
+    margin: 5px;
+    background-color: white;
+    font-size: 25px;
+    position: absolute;
+}
+
+.player-selection .player-s-btn {
+    top: calc(50% - 100px);
+    left: calc(75% - 150px);    
+}
+
+.join-status {
+    width: 350px;
+    height: 50px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: calc(50% - 175px);
+    top: calc(50% + 350px);       
+    border: solid black;   
+}
+
+.player-name {
+    font-size: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    position: absolute;
+}
+
+.multiplayer-game .player-o-name {
+    top: calc(50% + 150px);
+    left: calc(12% + 25px);
+}
+
+.player-selection .player-o-name {
+    top: calc(50% + 150px);
+    left: calc(25% - 125px);
+}
+
+.multiplayer-game .player-x-name {
+    top: calc(50% + 150px);
+    left: calc(75% + 25px);
+}
+
+.player-selection .player-x-name {
+    top: calc(50% + 150px);
+    left: calc(50% - 125px);
+}
+
+.spec-count {
+    margin: 10px;
+    background-color: white;
+    font-size: 25px;
+    position: absolute;
+    left: 60px;
+}
+
 .game-header {
     background-color: white;
     height: 150px;
