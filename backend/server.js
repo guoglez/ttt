@@ -63,7 +63,6 @@ app.post('/play-game', function (req, res) {
     res.end();
 });
 
-// $ curl -X POST http://localhost:3001/place-token -d '{"tokenType": "x", "tokenLocation": {"row": 1, "column": 1}}' -H "Content-Type: application/json"
 app.post('/place-token', function (req, res) {
 
     console.log(req.body);
