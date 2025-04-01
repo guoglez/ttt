@@ -14,17 +14,11 @@ let board = [
 ]
 let tilesfilled = 0;
 let winner = '';
-let tokeno = 'available'
-let tokenx = 'avaliable'
 
 app.use(express.json());
 
 let treasureChest = {
     players: [],
-    phase: phase,
-    tokenTurn: tokenTurn,
-    board: board,
-    winner: winner,
 }
 
 app.use((err, req, res, next) => {
@@ -36,35 +30,29 @@ app.use((err, req, res, next) => {
 })
 
 app.get('/game-state', function (req, res) {
-    // var hesCooking = req.cookies.letHimCook;
-    // if(!hesCooking) {
-    //     res.cookie('letHimCook', 'deznuts', { maxAge: 600000, httpOnly: true });
-    // }
 
     let gameState = {
         phase: phase,
         tokenTurn: tokenTurn,
         board: board,
         winner: winner,
+        treasureChest: treasureChest,
     }
     res.send(gameState);
 })
 app.use(express.static(path.resolve('../frontend')));
 
 app.post('/enter-game', function (req, res) {
-    var username = req.cookies.username;
-    res.cookie('username', req.body.username, { maxAge: 600000, httpOnly: true });
+    var username = req.body.username;
+    res.cookie('username', username, { maxAge: 600000});
     treasureChest.players.push({name: username, type: null}); 
+    console.log(treasureChest);
     res.end();
 });
 
-app.get('/big-ass-game-state', function (req, res) {
-
-})
-
 app.post('/play-game', function (req, res) {
     var username = req.cookies.username;
-    res.cookie('playertype', req.body.usertype, { maxAge: 600000, httpOnly: true});
+    res.cookie('playertype', req.body.usertype, { maxAge: 600000});
     treasureChest.players.forEach((player) => {
         if(player.name == username) {
             player.type = req.body.usertype;
@@ -77,13 +65,12 @@ app.post('/play-game', function (req, res) {
 
 // $ curl -X POST http://localhost:3001/place-token -d '{"tokenType": "x", "tokenLocation": {"row": 1, "column": 1}}' -H "Content-Type: application/json"
 app.post('/place-token', function (req, res) {
-    // var hesCooking = req.cookies.letHimCook;
-    // if(hesCooking) {
-    //     console.log(`He's cooking ${hesCooking}`);
-    // }
 
     console.log(req.body);
     let result = placeToken(req.body.tokenType, req.body.tokenLocation.row, req.body.tokenLocation.column);
+    console.log(req.body.tokenType);
+    console.log(tokenTurn);
+    console.log(result);
     if (result == true) {
         analyzeGameState();
     } 
@@ -207,21 +194,3 @@ function processedPlayers() {
     })
     console.log(count);
 }
-
-app.get('/validate-player', function (req, res) {
-    
-})
-
-// function playerValidation(validatetype) {
-//     if(validatetype == "o" && tokeno == "available") {
-//         console.log('available'); 
-//         tokeno = 'unavailable';
-//     }
-//     if(validatetype == "x" && tokenx == "available") {
-//         console.log('available');
-//         tokenx = 'unavailable'
-//     }
-//     else {
-//         console.log('unavailable')
-//     }
-// }
